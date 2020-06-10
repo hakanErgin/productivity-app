@@ -1,5 +1,6 @@
 import * as React from 'react';
-import {ActivityIndicator, StatusBar, View, AsyncStorage} from 'react-native';
+import {ActivityIndicator, StatusBar, View} from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 
 import styles from '../stlyes';
 
