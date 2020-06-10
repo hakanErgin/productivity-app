@@ -1,5 +1,11 @@
+import React from 'react';
+import {ApolloClient} from 'apollo-client';
+import {ApolloProvider} from '@apollo/react-hooks';
 import {createSwitchNavigator, createAppContainer} from 'react-navigation';
 import {createStackNavigator} from 'react-navigation-stack';
+
+import {InMemoryCache} from 'apollo-cache-inmemory';
+import {HttpLink} from 'apollo-link-http';
 
 import SignInScreen from './views/Signin';
 import HomeScreen from './views/Home';
@@ -9,7 +15,7 @@ import OtherScreen from './views/Other';
 const AppStack = createStackNavigator({Home: HomeScreen, Other: OtherScreen});
 const AuthStack = createStackNavigator({SignIn: SignInScreen});
 
-export default createAppContainer(
+const Stacks = createAppContainer(
   createSwitchNavigator(
     {
       AuthLoading: AuthLoadingScreen,
@@ -21,3 +27,22 @@ export default createAppContainer(
     },
   ),
 );
+
+//Ipv4 address works for some reason localhost does not
+
+const httpLink = new HttpLink({
+  uri: 'http://192.168.1.12:4001/graphql',
+});
+
+const client = new ApolloClient({
+  link: httpLink,
+  cache: new InMemoryCache(),
+});
+
+const App = () => (
+  <ApolloProvider client={client}>
+    <Stacks />
+  </ApolloProvider>
+);
+
+export default App;
