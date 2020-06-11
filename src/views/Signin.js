@@ -6,29 +6,25 @@ import {useMutation, useQuery} from '@apollo/react-hooks';
 
 import styles from '../stlyes';
 
-// const SIGN_IN = gql`
-//   mutation LoginMutation($email: String!, $password: String!) {
-//     Login(email: "hakan.ergin@gmail.com", password: "123")
-//   }
-// `;
-
-const USER = gql`
-  query {
-    users {
-      email
-    }
+const SIGN_IN = gql`
+  mutation {
+    Login(email: "hakan.ergin@gmail.com", password: "123")
   }
 `;
 
-const SignInScreen = () => {
-  // const [signin, {data}] = useMutation(SIGN_IN);
+const SignInScreen = props => {
+  const [signin, {data}] = useMutation(SIGN_IN);
 
-  const {loading, error, data} = useQuery(USER);
+  const _signInAsync = async () => {
+    await AsyncStorage.setItem('userToken', 'abc');
+    props.navigation.navigate('App');
+  };
 
   return (
     <View style={styles.container}>
-      {/* <Button title="Sign in!" onPress={signin} /> */}
-      {data && <Text>{data.users[0].email}</Text>}
+      <Button title="Sign in!" onPress={_signInAsync} />
+      {data && console.log(data)}
+      {/* {data && <Text>{data.users[0].email}</Text>} */}
     </View>
   );
 };

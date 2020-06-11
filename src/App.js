@@ -31,7 +31,7 @@ const Stacks = createAppContainer(
 //Ipv4 address works for some reason localhost does not
 
 const httpLink = new HttpLink({
-  uri: 'http://192.168.1.12:4001/graphql',
+  uri: 'https://grand-stack-starter-woad.now.sh/graphql',
 });
 
 const client = new ApolloClient({
