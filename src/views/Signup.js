@@ -7,17 +7,19 @@ import {Formik} from 'formik';
 
 import styles from '../stlyes';
 
-const SIGN_IN = gql`
-  mutation Login($email: String!, $password: String!) {
-    Login(email: $email, password: $password)
+const SIGN_UP = gql`
+  mutation Register($email: String!, $password: String!) {
+    Register(email: $email, password: $password) {
+      id
+      email
+    }
   }
 `;
 
-const SignInScreen = props => {
-  const [signIn] = useMutation(SIGN_IN, {
-    onCompleted(data) {
-      AsyncStorage.setItem('userToken', data.Login);
-      props.navigation.navigate('App');
+const SignUpScreen = props => {
+  const [signUp] = useMutation(SIGN_UP, {
+    onCompleted(signUp) {
+      props.navigation.navigate('SignIn');
     },
   });
 
@@ -26,7 +28,7 @@ const SignInScreen = props => {
       <Formik
         initialValues={{email: '', password: ''}}
         onSubmit={values => {
-          signIn({
+          signUp({
             variables: {
               email: values.email,
               password: values.password,
@@ -49,8 +51,8 @@ const SignInScreen = props => {
             />
             <Button onPress={handleSubmit} title="Submit" />
             <Button
-              onPress={() => props.navigation.navigate('SignUp')}
-              title="Go to SignUp"
+              onPress={() => props.navigation.navigate('SignIn')}
+              title="Go to SignIn"
             />
           </View>
         )}
@@ -59,4 +61,4 @@ const SignInScreen = props => {
   );
 };
 
-export default SignInScreen;
+export default SignUpScreen;
